@@ -63,6 +63,9 @@ def get_html(url: str) -> GetHTMLResult:
     response = None
     try:
         response = requests.get(url)
+        print("first response")
+        print(response.status_code)
+        print(response.reason)
         result = _check_response(response, url)
         response.close()
         return result
@@ -91,6 +94,9 @@ def _check_response(response: requests.Response, url: str) -> GetHTMLResult:
     elif response.status_code in [401, 403]:
         # handle cloudflare
         response_cloud = _handle_cloudflare(url)
+        print("cloud response")
+        print(response_cloud.status_code)
+        print(response_cloud.reason)
         if response_cloud.status_code == 200:
             return {
                 "success": True,
