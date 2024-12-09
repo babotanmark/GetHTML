@@ -6,6 +6,7 @@ import requests
 from requests.adapters import HTTPAdapter
 import cloudscraper
 from bs4 import BeautifulSoup
+from fp.fp import FreeProxy
 from typing import TypedDict, Optional
 from fastapi import FastAPI, Query
 
@@ -134,9 +135,14 @@ def _handle_cloudflare(url: str) -> requests.Response:
 
 def _try_cloudflare_request(cloud_scraper: cloudscraper.CloudScraper, url: str, with_proxy: bool = False) -> requests.Response:
     if with_proxy:
-        proxies = get_proxies()
-        if not proxies:
-            raise Exception("No proxy")
+        proxy = FreeProxy(url=url).get()
+        print(proxy)
+        proxies = {
+            "http": proxy,
+            "https": proxy
+        }
+        # if not proxies:
+        #     raise Exception("No proxy")
     else:
         proxies = None
     # update headers
