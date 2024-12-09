@@ -66,7 +66,7 @@ def get_html(url: str) -> GetHTMLResult:
         result = _check_response(response, url)
         response.close()
         return result
-    except requests.exceptions.SSLError:
+    except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.ConnectionError):
         response = _handle_ssl_error(url)
         result = _check_response(response, url)
         response.close()
@@ -151,7 +151,7 @@ def _handle_ssl_error(url: str) -> requests.Response:
     }
     try:
         response = _try_session_request(url, headers)
-    except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.RequestException):
+    except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.ConnectionError):
         response = _try_no_verification_request(url, headers)
     return response
 
