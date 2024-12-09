@@ -161,10 +161,14 @@ def _handle_ssl_error(url: str) -> requests.Response:
         'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
     }
     try:
-        response = _try_session_request(url, headers)
-        print("session ok")
+        response = _try_no_verification_request(url, headers)
+        print("no ver ok")
         print(response.status_code)
         print(response.reason)
+        # response = _try_session_request(url, headers)
+        # print("session ok")
+        # print(response.status_code)
+        # print(response.reason)
     except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.ConnectionError):
         response = _try_no_verification_request(url, headers)
         print("no ver ok")
