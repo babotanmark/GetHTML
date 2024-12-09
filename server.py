@@ -92,6 +92,7 @@ def _check_response(response: requests.Response, url: str) -> GetHTMLResult:
             "data": response.text
         }
     elif response.status_code in [401, 403]:
+        print("trying cloudfscraper")
         # handle cloudflare
         response_cloud = _handle_cloudflare(url)
         print("cloud response")
@@ -154,6 +155,7 @@ def _try_cloudflare_request(cloud_scraper: cloudscraper.CloudScraper, url: str, 
 
 
 def _handle_ssl_error(url: str) -> requests.Response:
+    print("trying ssl handling")
     # custom headers to use
     headers = {
         'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
