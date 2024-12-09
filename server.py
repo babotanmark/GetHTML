@@ -139,6 +139,9 @@ def _try_cloudflare_request(cloud_scraper: cloudscraper.CloudScraper, url: str, 
         'Accept-Language': 'en-US,en;q=0.9'
     })
     response = cloud_scraper.get(url, proxies=proxies)
+    print("cloudflare:")
+    print(response.status_code)
+    print(response.reason)
     if response.status_code != 200 and not with_proxy:
         raise TryWithProxiesError()
     return response
@@ -151,8 +154,14 @@ def _handle_ssl_error(url: str) -> requests.Response:
     }
     try:
         response = _try_session_request(url, headers)
+        print("session ok")
+        print(response.status_code)
+        print(response.reason)
     except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.ConnectionError):
         response = _try_no_verification_request(url, headers)
+        print("no ver ok")
+        print(response.status_code)
+        print(response.reason)
     return response
 
 
