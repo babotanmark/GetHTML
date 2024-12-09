@@ -151,7 +151,7 @@ def _handle_ssl_error(url: str) -> requests.Response:
     }
     try:
         response = _try_session_request(url, headers)
-    except (requests.exceptions.SSLError, requests.exceptions.ProxyError):
+    except (requests.exceptions.SSLError, requests.exceptions.ProxyError, requests.exceptions.RequestException):
         response = _try_no_verification_request(url, headers)
     return response
 
